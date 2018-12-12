@@ -21,6 +21,8 @@ class Commands:
             f"https://goodani.me/emotion?emotion={emotion}"
         ) as r:
             j = await r.json()
+        if j["is_nsfw"] and not ctx.channel.is_nsfw():
+            return await ctx.send("NSFW emotion!")
         em = discord.Embed(title=emotion, colour=0xAD004B)
         em.set_image(url=j["url"])
         await ctx.send(embed=em)
