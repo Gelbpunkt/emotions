@@ -28,5 +28,6 @@ class Events:
     async def on_ready(self):
         print("Ready")
 
+
 def setup(bot):
     bot.add_cog(Events(bot))

@@ -7,6 +7,7 @@ import config
 
 bot = commands.Bot(command_prefix=["owo ", "aww "], case_insensitive=True)
 bot.config = config
+bot.owners = [356091260429402122, 244508568517083136]
 
 
 async def start_bot():
