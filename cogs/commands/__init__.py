@@ -8,7 +8,7 @@ class Commands:
         bot.loop.create_task(self.get_emotions())
 
     async def get_emotions(self):
-        async with self.bot.session.get("https://goodani.me/emotions") as r:
+        async with self.bot.session.get("https://goodani.me/api/v1/emotions") as r:
             j = await r.json()
         self.bot.emotions = list(j.keys())
 
@@ -18,7 +18,7 @@ class Commands:
         if not emotion in self.bot.emotions:  # we do not have this emotion available
             return await ctx.send("Emotion does not exist!")
         async with self.bot.session.get(
-            f"https://goodani.me/emotion?emotion={emotion}"
+            f"https://goodani.me/api/v1/emotion/{emotion}/"
         ) as r:
             j = await r.json()
         if j["is_nsfw"] and not ctx.channel.is_nsfw():
@@ -32,7 +32,7 @@ class Commands:
     @commands.command()
     async def hug(self, ctx, *, user: discord.User):
         """Hug someone."""
-        async with self.bot.session.get(f"https://goodani.me/emotion?emotion=hug") as r:
+        async with self.bot.session.get(f"https://goodani.me/api/v1/emotion/hug/") as r:
             j = await r.json()
         em = discord.Embed(
             title="Hug!",
@@ -46,7 +46,7 @@ class Commands:
     async def kiss(self, ctx, *, user: discord.User):
         """Kiss someone."""
         async with self.bot.session.get(
-            f"https://goodani.me/emotion?emotion=kiss"
+            f"https://goodani.me/api/v1/emotion/kiss/"
         ) as r:
             j = await r.json()
         em = discord.Embed(
