@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 
-class Commands:
+class Commands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         bot.loop.create_task(self.get_emotions())
@@ -15,7 +15,7 @@ class Commands:
     @commands.command(aliases=["picture", "pic", "gif"])
     async def emotion(self, ctx, *, emotion: str.lower):
         """Sends an emotion picture if found."""
-        if not emotion in self.bot.emotions:  # we do not have this emotion available
+        if emotion not in self.bot.emotions:  # we do not have this emotion available
             return await ctx.send("Emotion does not exist!")
         async with self.bot.session.get(
             f"https://goodani.me/api/v1/emotion/{emotion}"
@@ -45,9 +45,7 @@ class Commands:
     @commands.command()
     async def kiss(self, ctx, *, user: discord.User):
         """Kiss someone."""
-        async with self.bot.session.get(
-            f"https://goodani.me/api/v1/emotion/kiss"
-        ) as r:
+        async with self.bot.session.get(f"https://goodani.me/api/v1/emotion/kiss") as r:
             j = await r.json()
         em = discord.Embed(
             title="Kiss!",
